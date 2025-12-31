@@ -68,6 +68,64 @@
             font-style: italic;
             color: #a8d8ff;
         }
+        
+        #fireworksCanvas, #snowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        #fireworksCanvas {
+            z-index: 1;
+        }
+        
+        #snowCanvas {
+            z-index: 2;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .link-section {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .link-section h5 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .link-section h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .link-section a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .link-section a:hover {
+            background: #00d4ff;
+            color: #0a0a2a;
+            transform: scale(1.05);
+        }
       
     </style>
 
@@ -98,7 +156,7 @@
 
 <!-- 音频元素 -->
     <audio id="backgroundMusic" loop>
-        <source src="audio/happybirthday.mp3" type="audio/mpeg">
+        <source src="audio/happybirthday .mp3" type="audio/mpeg">
         您的浏览器不支持audio元素。
     </audio>
 
@@ -116,6 +174,14 @@
                     playButton.style.position = 'fixed';
                     playButton.style.top = '10px';
                     playButton.style.right = '10px';
+                    playButton.style.zIndex = '100';
+                    playButton.style.padding = '10px 20px';
+                    playButton.style.backgroundColor = '#ffd700';
+                    playButton.style.color = '#0a0a2a';
+                    playButton.style.border = 'none';
+                    playButton.style.borderRadius = '5px';
+                    playButton.style.cursor = 'pointer';
+                    playButton.style.fontSize = '1rem';
                     playButton.addEventListener('click', () => {
                         audio.play();
                         playButton.remove();
@@ -129,11 +195,11 @@
         });
     </script>
 
-<h5>（水平有限，烟花真弄不了全屏）</h5>
-<h2 >点我下面的字</h2>
-<a href="https://www.bilibili.com/video/BV1YC411s7qB/?spm_id_from=333.337.search-card.all.click" target="_blank">点我点我点我</a>
-
-
+    <div class="link-section">
+       
+        <h2>点我下面的字</h2>
+        <a href="https://www.bilibili.com/video/BV1YC411s7qB/?spm_id_from=333.337.search-card.all.click" target="_blank">点我点我点我</a>
+    </div>
 
   <canvas id="fireworksCanvas"></canvas>
     
@@ -373,7 +439,7 @@
  <script>
         // 获取Canvas元素和上下文
         const snowCanvas = document.getElementById('snowCanvas');
-        const ctx = snowCanvas.getContext('2d');
+        const snowCtx = snowCanvas.getContext('2d');
         
         // 设置画布尺寸
         function resizeCanvas() {
@@ -420,17 +486,17 @@
             }
             
             draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.fill();
+                snowCtx.beginPath();
+                snowCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                snowCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                snowCtx.fill();
                 
                 // 添加一些细节使雪花看起来更真实
-                ctx.beginPath();
-                ctx.arc(this.x - this.size/3, this.y - this.size/3, this.size/3, 0, Math.PI * 2);
-                ctx.arc(this.x + this.size/3, this.y - this.size/3, this.size/3, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.7})`;
-                ctx.fill();
+                snowCtx.beginPath();
+                snowCtx.arc(this.x - this.size/3, this.y - this.size/3, this.size/3, 0, Math.PI * 2);
+                snowCtx.arc(this.x + this.size/3, this.y - this.size/3, this.size/3, 0, Math.PI * 2);
+                snowCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.7})`;
+                snowCtx.fill();
             }
         }
         
@@ -444,11 +510,11 @@
         
         // 雪花动画
         function animateSnow() {
-            ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+            snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
             
             // 添加一些深度效果 - 远处的雪花更模糊
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            snowCtx.shadowBlur = 10;
+            snowCtx.shadowColor = 'rgba(255, 255, 255, 0.5)';
             
             snowflakes.forEach(snowflake => {
                 snowflake.update();
@@ -527,5 +593,3 @@
   
 </body>
 </html>
-
-
